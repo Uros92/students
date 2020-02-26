@@ -8,6 +8,3 @@ $config = require('config.php');
 $db = Connection::connect($config["databases"]);
 
 $query_builder = new QueryBuilder($db);
-
-// All students
-$students = $query_builder->getStudents('students');
