@@ -5,22 +5,18 @@
 <?php
 
     if(!isset($_GET['student'])) {
+
         include('schools.php');
         include('students.php');
+
     } else {
+
         include('single_student.php');
+
     }
 
 ?>
 
-
-
-
-
-
-<?php /*include('schools.php');*/?><!--
-
---><?php /*include('students.php');*/?>
 
 
 <?php include('views/_partials/footer.php');?>
