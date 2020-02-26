@@ -52,10 +52,10 @@ class QueryBuilder
      */
     public function getStudent($id): array
     {
-        $sql = "select * from students where students.id = {$id}";
+        $sql = "select * from students where students.id = ?";
 
         $query = $this->db->prepare($sql);
-        $query->execute();
+        $query->execute([$id]);
 
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
@@ -69,10 +69,10 @@ class QueryBuilder
      */
     public function getStudentGrades($id): array
     {
-        $sql = "select user_grades.grade from user_grades where student_id = {$id} order by grade desc";
+        $sql = "select user_grades.grade from user_grades where student_id = ? order by grade desc";
 
         $query = $this->db->prepare($sql);
-        $query->execute();
+        $query->execute([$id]);
 
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
@@ -86,10 +86,10 @@ class QueryBuilder
      */
     public function getAverageStudentGrades($id): array
     {
-        $sql = "SELECT AVG(grade) as avg_grade FROM user_grades WHERE user_grades.student_id = {$id}";
+        $sql = "SELECT AVG(grade) as avg_grade FROM user_grades WHERE user_grades.student_id = ?";
 
         $query = $this->db->prepare($sql);
-        $query->execute();
+        $query->execute([$id]);
 
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
@@ -109,7 +109,7 @@ WHERE s.id = ?
         $query = $this->db->prepare($sql);
         $query->execute([$id]);
 
-        return $query->fetch(PDO::FETCH_OBJ);
+        return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
 

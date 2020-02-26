@@ -7,9 +7,11 @@ $school = $query_builder->getSchoolOfStudent($_GET['student']);
 $student_grades = $query_builder->getStudentGrades($_GET['student']);
 $average_student_grades = $query_builder->getAverageStudentGrades($_GET['student']);
 
-if($school->name === "CSM") {
 
-    $json_response = [$student, $school, $student_grades, $average_student_grades];
+// Check students school and return correct response
+$json_response = [$student, $school, $student_grades, $average_student_grades];
+if($school[0]->name === "CSM") {
+
     if(floatval($average_student_grades[0]->avg_grade) >= 7) {
         $json_response['status'] = 'pass';
     } else {
@@ -19,11 +21,23 @@ if($school->name === "CSM") {
 
 
 } else {
-    if($student_grades[0]->grade >8) {
+    $new_array_for_xml = [];
+    foreach ($json_response as $element ) {
+        foreach ($element[0] as $key => $value) {
+            $new_array_for_xml[] = [$key => $value];
+        }
+    };
 
+    if($student_grades[0]->grade > 8) {
+        $new_array_for_xml[] = ['status' => 'pass'];
+    } else {
+        $new_array_for_xml[] = ['status' => 'fail'];
     }
-}
 
-//print_r($json_response);
+    // return XML
+    print_r(json_encode($new_array_for_xml));die;
+
+
+}
 
 //require('views/student_single.view.php');
